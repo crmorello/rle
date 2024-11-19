@@ -3,7 +3,7 @@ module RLE
   VERSION = "0.1.0"
 
   def self.compress(data : Bytes) : Bytes
-    buffer = IO::Memory.new(data.size // 2) # Preallocate buffer
+    buffer = IO::Memory.new(data.size)
     i = 0
     
     while i < data.size
@@ -16,6 +16,27 @@ module RLE
         length = count_nonzeros(data, i)
         buffer.write_byte(length.to_u8)
         buffer.write(data[i, length])
+        i += length
+      end
+    end
+    
+    buffer.to_slice
+  end
+
+  def self.decompress(compressed : Bytes, original_size : Int64) : Bytes
+    buffer = IO::Memory.new(original_size)
+    i = 0
+    
+    while i < compressed.size
+      length = compressed[i]
+      i += 1
+      
+      if length == 0
+        zero_count = IO::ByteFormat::LittleEndian.decode(UInt16, compressed[i, 2])
+        buffer.write(Bytes.new(zero_count.to_i32, 0_u8))
+        i += 2
+      else
+        buffer.write(compressed[i, length])
         i += length
       end
     end
