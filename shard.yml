@@ -1,0 +1,9 @@
+name: rle
+version: 0.1.0
+
+authors:
+  - Corey Morello <cmorello@weatherflow.com>
+
+crystal: '>= 1.12.1'
+
+license: MIT
