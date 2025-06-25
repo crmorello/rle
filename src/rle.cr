@@ -16,10 +16,8 @@ module RLE
   end
 
   def self.decompress(compressed : Bytes, original_size : Int64) : Bytes
-    puts "original size #{original_size}"
     buffer = IO::Memory.new(original_size)
     i = 0
-    puts "compressed size #{compressed.size}"
 
     while i < compressed.size
       value = compressed[i]
