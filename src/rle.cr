@@ -31,7 +31,7 @@ module RLE
   end
 
   def self.compress_uint16(data : Slice(UInt16)) : Bytes
-    buffer = IO::Memory.new(data.size * 4) # 4 bytes per entry (value + count)
+    buffer = IO::Memory.new(data.size) # 4 bytes per entry (value + count)
     i = 0
     while i < data.size
       value = data[i]
