@@ -71,7 +71,7 @@ module RLE
   private def self.count_repeating_uint16(data : Slice(UInt16), start : Int32) : Int32
     count = 0
     value = data[start]
-    while start < data.size && data[start] == value
+    while start < data.size && data[start] == value && count < UInt16::MAX
       count += 1
       start += 1
     end
